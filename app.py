@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*- 
 
-from api import routing
+from api import server
 
 if __name__ == '__main__':
-    routing.start()
+    server.start()
