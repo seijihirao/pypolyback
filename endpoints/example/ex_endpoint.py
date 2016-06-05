@@ -7,7 +7,7 @@ utils = [
 
 def get(req, api):
     """
-    Execute `python2 appp.py`
+    Execute `python2 app.py`
     E entre, pelo seu browser em `localhost:8888/example/ex_endpoint`
     Deverá abrir uma página escrita `sucesso!`
     
@@ -19,7 +19,7 @@ def get(req, api):
 
 def post(req, api):
     """
-    Execute `python2 appp.py`
+    Execute `python2 app.py`
     E faça uma requisição http post em `localhost:8888/example/ex_endpoint`
     passando o objeto documentado como entrada
     Deverá ser retornado `{"message": input.message, "status":"sucesso!"}`

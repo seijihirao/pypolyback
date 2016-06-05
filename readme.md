@@ -41,7 +41,7 @@ Aqui estão contidas os arquivos da api, que gerenciam todo o funcionamento por 
 
 ### CONFIG
 Aqui estão os arquivos com variáveis de configuração usados no aplicativo.
-Eles serão disponibilisados para o endpoint por meio do parâmetro `api.config`
+Eles serão disponibilizados para o endpoint por meio do parâmetro `api.config`
 
 Estão contidos 2 arquivos:
 * `prod.json` - arquivo de configuração do site oficial
