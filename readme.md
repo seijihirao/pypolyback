@@ -33,7 +33,7 @@ Bem vindo ao Pypoly Back! A framework usada no backend do site da Discipuluz!
     /api - arquivos internos da api
     /config - arquivos json de configuração
     /endpoints - endpoints do backend
-    /support - arquivos de scripts para auxílio
+    /utils - arquivos de scripts para auxílio
     app.py - executável do servidor
 
 ### API
@@ -41,6 +41,7 @@ Aqui estão contidas os arquivos da api, que gerenciam todo o funcionamento por 
 
 ### CONFIG
 Aqui estão os arquivos com variáveis de configuração usados no aplicativo.
+Eles serão disponibilisados para o endpoint por meio do parâmetro `api.config`
 
 Estão contidos 2 arquivos:
 * `prod.json` - arquivo de configuração do site oficial
@@ -58,10 +59,16 @@ Por exemplo, o arquivo `endpoints/test/helloworld.py` gerará um endpoint `/test
 
 O código do arquivo endpoint será:
 ```python
-class Main(cyclone.web.RequestHandler):
-    def [method](self):
-        [process]
+
+utils = [
+    '[util1]'
+    '[util2]'
+]
+
+def [method](req, api):
+    [process]
 ``` 
+
 Onde `[method]` é o tipo de requisição, podendo ser:
 * post
 * get
@@ -69,13 +76,24 @@ Onde `[method]` é o tipo de requisição, podendo ser:
 * patch
 * delete
 
-E `[process]` é o que você deseja que o endpoint faça
+`[process]` é o que você deseja que o endpoint faça
 
-Lembrando de importar as bibliotecas necessárias.
+`[util1]` e `[util2]` são os nomes dos arquivos (sem o `.json`) dos scripts feitos na pasta *utils*
 
-> A documentação completa está contida no site http://cyclone.io/documentation/
+`req` é o request do cyclone, com as propriedades a mais:
+* params - argumentos recebidos pela requisição, dicionário onde as chaves são os nomes do argumentos
+* respond - função para retornar um dicionário na requisição
 
-### SUPPORT (Nome sujeito a mudança)
+> A documentação completa do `req` está contida no site http://cyclone.io/documentation/web.html
+
+`api` é o objeto que contém as funciionalidades da api, como:
+* config - dicionário da config usada no escopo atual
+* debug - função para logar uma mensagem
+* error - função para logar um erro
+
+> A documentação completa do `api` não existe :D
+
+### UTILS
 
 Arquivos de python com código reutilizável, para serem usados em múltiplos endpoints.
 
@@ -85,7 +103,7 @@ Executável do servidor!
 
 Abra um terminal e execute `python2 app.py`
 
-Então abra seu navegador ou uma requisição http e entre em localhost:`[porta]`/`[página]`
+Então abra seu navegador ou uma requisição http e entre em `localhost:[porta]/[página]`
 
 Onde `[porta]` é a porta no seu arquivo de configuração (`8888` se nada foi mudado)
 
@@ -93,19 +111,53 @@ E `[página]` é a url do seu arquivo, como explicado na sessão #endpoint
 
 ## EXEMPLO
 
-Para tentar ter uma pequena sensação de que as coisas estão funcionando crie uma pasta `test` na pasta `endpoint`, depois um arquivo `helloworld.py` na pasta `test`
+Para tentar ter uma pequena sensação de que as coisas estão funcionando dê uma olhada no arquivo `endpoints/example/ex_endpoint.py` 
 
-Coloque no arquivo:
+Ele deve estar assim:
 ```python
-import cyclone.web
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
-class Main(cyclone.web.RequestHandler):
-    def get(self):
-        self.write("Hello, world")
+utils = [
+    'example_util'
+]
+
+def get(req, api):
+    """
+    Execute `python2 appp.py`
+    E entre, pelo seu browser em `localhost:8888/example/ex_endpoint`
+    Deverá abrir uma página escrita `sucesso!`
+    
+    Output:
+        string
+    """
+    
+    return api.example_util.write('sucesso!')
+
+def post(req, api):
+    """
+    Execute `python2 appp.py`
+    E faça uma requisição http post em `localhost:8888/example/ex_endpoint`
+    passando o objeto documentado como entrada
+    Deverá ser retornado `{"message": input.message, "status":"sucesso!"}`
+    
+    Input:
+        message: string
         
+    Output:
+        message: string
+        status: string
+    """
+    
+    message = req.params['message']
+    
+    return api.example_util.write({
+        'message': message,
+        'status': 'sucessso!'
+    })
 ``` 
 
-Agora abra seu navegador na página `localhost:8888/test/helloworld`
+Agora siga as instruções para testar e ver como funciona o endpoint.
 
 ## AGRADECIMENTOS
 
