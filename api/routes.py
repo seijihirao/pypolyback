@@ -26,9 +26,36 @@ class DynamicHandler(cyclone.web.RequestHandler):
         __init__ passed to cyclone
         """
         super(DynamicHandler, self).__init__(application, request, **kwargs)
+        self._params = None
+        
         return self
     
-    def response(self, result):
+    @property
+    def params(self):
+        """
+        Gets argument in list of dicts
+
+        The returned value is always unicode.
+        
+        Returns:
+            value: parameter value. If the argument is not present, returns an empty list.
+        """
+        
+        if self._params is None:
+            try:
+                self._params = json.loads(self.request.body)
+            except:
+                self._params = {}
+                print self.request.arguments
+                for key in self.request.arguments:
+                    if len(self.request.arguments[key]) is 1:
+                        self._params[key] = self.request.arguments[key][0]
+                    else:
+                        self._params[key] = self.request.arguments[key]
+                                
+        return self._params
+    
+    def respond(self, result):
         """
         Transform dicts in json and writes them using `cyclone.web.RequestHandler.write` method
         """
@@ -63,7 +90,7 @@ class DynamicHandler(cyclone.web.RequestHandler):
         """
         
         result = yield self.endpoint_get(self, self.api, *args, **kwargs)
-        self.response(result)
+        self.respond(result)
     
     def endpoint_post(req, api, *args, **kwargs):
         """
@@ -90,7 +117,7 @@ class DynamicHandler(cyclone.web.RequestHandler):
             **kwargs: don't really know
         """
         result = yield self.endpoint_post(self, self.api, *args, **kwargs)
-        self.response(result)
+        self.respond(result)
 
 def prepare():
     """
