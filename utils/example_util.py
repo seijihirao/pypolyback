@@ -1,4 +1,2 @@
-def write():
-     return {
-         'response': 'sucesso!'
-     }
+def write(message):
+     return message
