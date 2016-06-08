@@ -12,10 +12,12 @@ def load(scope='default'):
     
     if scope is 'default':
         for scope in ['local', 'dev', 'prod']:
-            config = _load(scope)
-            if config:
-                return config
-    
+            path = 'config/{}.json'.format(scope)
+            if os.path.exists(path):
+                config = load(scope)
+                if config:
+                    return config
+                    
     else:
         path = 'config/{}.json'.format(scope)
         if os.path.exists(path):
