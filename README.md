@@ -21,8 +21,8 @@ Bem vindo ao Pypoly Back! A framework usada no backend do site da Discipuluz!
     * Ubuntu - `sudo apt-get install pip2`
     * Fedora - `sudo yum install pip2`
     * Arch - `sudo pacman -S pip2`
-3. Instale as bibliotecas usando o PIP
-    * `pip install pypoly-back`
+3. Instale a framework usando o PIP
+    * `pip2 install pypolyback`
     
 ---
 
