@@ -6,8 +6,7 @@ Bem vindo ao Pypoly Back! A framework usada no backend do site da Discipuluz!
 
 ## Bibliotecas
 * [twisted](https://twistedmatrix.com/trac/) - Ferramenta de eventos de redes (Low Level)
-* [tornado](http://www.tornadoweb.org/en/stable/) - Framework de apps web (High Level)
-* [cyclone](http://cyclone.io/documentation/) - Implementação do Tornado como um protocolo do Twisted
+* [cyclone](http://cyclone.io/documentation/) - Framework de apps web (High Level)
 
 ---
 
