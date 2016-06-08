@@ -100,7 +100,8 @@ Ele será um código comum, mas com alguns métodos especiais, sendo esses:
 
 init(api)
 
-    A função que será executada no início da compilação, ou seja, apena uma vez, que será quando o programa for executado.
+    A função que será executada no início da compilação.
+    Ou seja, apenas uma vez, que será quando o programa for executado.
     
 `[method]`(req, api) - Sendo `[method]` o tipo de requisição
     
