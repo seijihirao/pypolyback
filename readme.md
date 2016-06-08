@@ -8,7 +8,8 @@ Bem vindo ao Pypoly Back! A framework usada no backend do site da Discipuluz!
 * [twisted](https://twistedmatrix.com/trac/) - Ferramenta de eventos de redes (Low Level)
 * [tornado](http://www.tornadoweb.org/en/stable/) - Framework de apps web (High Level)
 * [cyclone](http://cyclone.io/documentation/) - Implementação do Tornado como um protocolo do Twisted
-* [MySQLdb](http://mysql-python.sourceforge.net/MySQLdb.html) - Driver de MySQL
+
+---
 
 ## Instalação
 1. Instale o python 2.7
@@ -26,6 +27,8 @@ Bem vindo ao Pypoly Back! A framework usada no backend do site da Discipuluz!
     * `pip install tornado`
     * `pip install cyclone`
     
+---
+
 ## Utilização
 
 ### Pastas
@@ -175,6 +178,8 @@ def post(req, api):
 ``` 
 
 Agora siga as instruções para testar e ver como funciona o endpoint.
+
+---
 
 ## AGRADECIMENTOS
 
