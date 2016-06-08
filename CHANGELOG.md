@@ -1,3 +1,6 @@
+#v0.5.4 
+Added long description to pip
+
 #v0.5.3 
 Fixed a bug where pypoly class was being called
 

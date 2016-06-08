@@ -16,6 +16,7 @@ setup(
     version='0.5.3',
 
     description='A simple back-end rest framework in python using twisted and cyclone',
+    long_description='Github: https://github.com/seijihirao/pypolyback'
 
     # The project's main homepage.
     url='https://github.com/seijihirao/pypolyback',
