@@ -25,7 +25,6 @@ Bem vindo ao Pypoly Back! A framework usada no backend do site da Discipuluz!
     * `pip install twisted`
     * `pip install tornado`
     * `pip install cyclone`
-    * `pip install MySQL-python`
     
 ## Utilização
 
