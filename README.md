@@ -23,20 +23,19 @@ Bem vindo ao Pypoly Back! A framework usada no backend do site da Discipuluz!
     * Fedora - `sudo yum install pip2`
     * Arch - `sudo pacman -S pip2`
 3. Instale as bibliotecas usando o PIP
-    * `pip install twisted`
-    * `pip install tornado`
-    * `pip install cyclone`
+    * `pip install pypoly-back`
     
 ---
 
 ## Utilização
 
 ### Pastas
-    /pypolyback - arquivos internos da api (Essa pasta só existirá se você não instalou a biblioteca `pypoly-back` pelo pip)
+    /pypolyback (*) - arquivos internos da api
     /config - arquivos json de configuração
     /endpoints - endpoints do backend
     /utils - arquivos de scripts para auxílio
-    app.py - executável do servidor
+    
+>Obs (*): A pasta pypolyback só existirá se você não instalou a biblioteca `pypolyback` pelo pip  
 
 ### API
 Aqui estão contidas os arquivos da api, que gerenciam todo o funcionamento por trás dos endpoints
@@ -178,6 +177,14 @@ def post(req, api):
 ``` 
 
 Agora siga as instruções para testar e ver como funciona o endpoint.
+
+---
+
+### Execução
+
+Execute `pypolyback` pelo terminal na pasta raíz do seu projeto (Recomendado)
+
+Ou chame o método `start()` do módulo `pypolyback.server`
 
 ---
 
