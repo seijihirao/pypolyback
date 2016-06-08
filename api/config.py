@@ -1,31 +1,28 @@
 import os
 import json
 
-def _load(scope):
+def load(scope='default'):
     """
     loads choosen config file
+    if scope is not define loads default (first try `local`, then `dev` and last `prod`)
     
     Args:
         scope: config file, without `.json`
     """
-    path = 'config/{}.json'.format(scope)
-    if os.path.exists(path):
-        with open(path, 'r') as config:
-            obj = json.loads(config.read())
-            obj['scope'] = scope
-            return obj
-            
-    return False
-
-def load():
-    """
-    loads config file (first try `local`, then `dev` and last `prod`)
-    """
-    for scope in ['local', 'dev', 'prod']:
-        config = _load(scope)
-        if config:
-            return config
     
+    if scope is 'default':
+        for scope in ['local', 'dev', 'prod']:
+            config = _load(scope)
+            if config:
+                return config
+    
+    else:
+        path = 'config/{}.json'.format(scope)
+        if os.path.exists(path):
+            with open(path, 'r') as config:
+                obj = json.loads(config.read())
+                obj['scope'] = scope
+                return obj
     raise EnvironmentError('No config file found')
 
 #shortcut to current config
