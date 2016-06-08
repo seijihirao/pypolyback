@@ -68,7 +68,7 @@ class DynamicHandler(cyclone.web.RequestHandler):
                                 
         return self._params
     
-    def respond(self, result):
+    def send(self, result):
         """
         Transform dicts in json and writes them using `cyclone.web.RequestHandler.write` method
         """
@@ -107,8 +107,7 @@ class DynamicHandler(cyclone.web.RequestHandler):
         for util_func in self.pypoly_utils_get:
             util_func(self, self.api, *args, **kwargs)
             
-        result = yield self.pypoly_get(self, self.api, *args, **kwargs)
-        self.respond(result)
+        yield self.pypoly_get(self, self.api, *args, **kwargs)
     
     def pypoly_post(req, api, *args, **kwargs):
         """
@@ -140,8 +139,7 @@ class DynamicHandler(cyclone.web.RequestHandler):
         for util_func in self.pypoly_utils_post:
             util_func(self, self.api, *args, **kwargs)
             
-        result = yield self.pypoly_post(self, self.api, *args, **kwargs)
-        self.respond(result)
+        yield self.pypoly_post(self, self.api, *args, **kwargs)
 
 def prepare():
     """
@@ -171,10 +169,13 @@ def prepare():
         file_module = imp.load_source(file_path['url'].replace('/', '-'), file_path['file'])
         handler = DynamicHandler()
         
+        handler.async = async
+        
         #add utils to api param
         for util in file_module.utils:
             if not util in utils:
                 utils[util] = imp.load_source(util, os.path.join('utils', util + '.py'))
+                utils[util].async =  async
             setattr(handler.api, util, utils[util])
             
             #calls util init function 

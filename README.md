@@ -1,4 +1,4 @@
-# PYPOLY BACK - v0.5
+# PYPOLY BACK - v0.6
 Bem vindo ao Pypoly Back! A framework usada no backend do site da Discipuluz!
 
 ## Linguagem
@@ -64,7 +64,7 @@ utils = [
     '[util1]'
     '[util2]'
 ]
-
+[@async]
 def [method](req, api):
     [process]
 ``` 
@@ -92,6 +92,12 @@ Onde `[method]` é o tipo de requisição, podendo ser:
 * error - função para logar um erro
 
 > A documentação completa do `api` não existe :D
+
+`[@async]` é uma anotação opcional, que transforma o método em asíncrono.
+
+Note que deverá ser importado a anotação para ser usada (`from pypolyback import async`)
+
+> A documentação completa do `async` é a mesma do `inlineCallback` contida no site https://twistedmatrix.com/documents/current/api/twisted.internet.defer.html#inlineCallbacks
 
 ### UTILS
 
@@ -136,13 +142,16 @@ Ele deve estar assim:
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from pypolyback import async
+
 utils = [
     'example_util'
 ]
 
+@async  #método asíncrono
 def get(req, api):
     """
-    Execute `python2 appp.py`
+    Execute `python2 app.py`
     E entre, pelo seu browser em `localhost:8888/example/ex_endpoint`
     Deverá abrir uma página escrita `sucesso!`
     
@@ -150,11 +159,13 @@ def get(req, api):
         string
     """
     
-    return api.example_util.write('sucesso!')
+    result = yield api.example_util.write(req) #coletando dados de forma asíncrona
+    
+    req.send(result) #retornando os dados
 
 def post(req, api):
     """
-    Execute `python2 appp.py`
+    Execute `python2 app.py`
     E faça uma requisição http post em `localhost:8888/example/ex_endpoint`
     passando o objeto documentado como entrada
     Deverá ser retornado `{"message": input.message, "status":"sucesso!"}`
@@ -167,11 +178,12 @@ def post(req, api):
         status: string
     """
     
-    message = req.params['message']
+    message = req.params['message'] #coletando dados da requisição
     
-    return api.example_util.write({
-        'message': message,
-        'status': 'sucessso!'
+    #retornando os dados
+    req.send({
+        'message': api.example_util.write(req),
+        'request': message
     })
 ``` 
 

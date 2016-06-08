@@ -1,3 +1,6 @@
+#v0.6.0
+Added async annotation
+
 #v0.5.4 
 Added long description to pip
 

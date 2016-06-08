@@ -1,0 +1,1 @@
+from twisted.internet.defer import inlineCallbacks as async

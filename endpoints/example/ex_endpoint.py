@@ -1,10 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from pypolyback import async
+
 utils = [
     'example_util'
 ]
 
+@async
 def get(req, api):
     """
     Execute `python2 app.py`
@@ -15,7 +18,9 @@ def get(req, api):
         string
     """
     
-    return api.example_util.write(req)
+    result = yield api.example_util.write(req)
+    
+    req.send(result)
 
 def post(req, api):
     """
@@ -34,7 +39,7 @@ def post(req, api):
     
     message = req.params['message']
     
-    return {
+    req.send({
         'message': api.example_util.write(req),
         'request': message
-    }
+    })
