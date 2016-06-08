@@ -10,16 +10,29 @@ from twisted.internet.defer import inlineCallbacks as async
 
 from api import apiobject
 
+global_api =  apiobject.mount()
+
 class DynamicHandler(cyclone.web.RequestHandler):
     """
     Dummy cycloce Web Handler that will be used as a mold for endpoints 
+    
+    Properties:
+        api: api properties that will be avaliable on endpoints, documented on `apiobject.py`
+        pypoly_utils_get: list of `get` functions in the called util, they will be called before each endpoint `get` request
+        pypoly_utils_post: list of `post` functions in the called util, they will be called before each endpoint `post` request
+        pypoly_utils_any: list of `any` functions in the called util, they will be called before each endpoint request
     """
     
     def __init__(self):
         """
-        Mounts api object
+        Initialize properties.
+        api with the mounted object
+        pypoly_utils with an empty list each
         """
-        self.api = apiobject.mount()
+        self.pypoly_utils_get = []
+        self.pypoly_utils_post = []
+        self.pypoly_utils_any = []
+        self.api = global_api
     
     def _cyclone_init(self, application, request, **kwargs):
         """
@@ -64,7 +77,7 @@ class DynamicHandler(cyclone.web.RequestHandler):
         elif result:
             self.write(result)
     
-    def endpoint_get(req, api, *args, **kwargs):
+    def pypoly_get(req, api, *args, **kwargs):
         """
         Function executed on http get that will be overriden by `get` function on your endpoint 
         
@@ -88,11 +101,16 @@ class DynamicHandler(cyclone.web.RequestHandler):
             *args: don't really know
             **kwargs: don't really know 
         """
-        
-        result = yield self.endpoint_get(self, self.api, *args, **kwargs)
+        for util_func in self.pypoly_utils_any:
+            util_func(self, self.api, *args, **kwargs)
+            
+        for util_func in self.pypoly_utils_get:
+            util_func(self, self.api, *args, **kwargs)
+            
+        result = yield self.pypoly_get(self, self.api, *args, **kwargs)
         self.respond(result)
     
-    def endpoint_post(req, api, *args, **kwargs):
+    def pypoly_post(req, api, *args, **kwargs):
         """
         Function executed on http post that will be overriden by `post` function on your endpoint 
         
@@ -116,7 +134,13 @@ class DynamicHandler(cyclone.web.RequestHandler):
             *args: don't really know
             **kwargs: don't really know
         """
-        result = yield self.endpoint_post(self, self.api, *args, **kwargs)
+        for util_func in self.pypoly_utils_any:
+            util_func(self, self.api, *args, **kwargs)
+            
+        for util_func in self.pypoly_utils_post:
+            util_func(self, self.api, *args, **kwargs)
+            
+        result = yield self.pypoly_post(self, self.api, *args, **kwargs)
         self.respond(result)
 
 def prepare():
@@ -153,13 +177,29 @@ def prepare():
                 utils[util] = imp.load_source(util, os.path.join('utils', util + '.py'))
             setattr(handler.api, util, utils[util])
             
+            #calls util init function 
+            if hasattr(utils[util], 'init'):
+                utils[util].init(global_api)
+                
+            #add post function
+            if hasattr(utils[util], 'post'):
+                handler.pypoly_utils_post += [utils[util].post]
+                
+            #add get function
+            if hasattr(utils[util], 'get'):
+                handler.pypoly_utils_get += [utils[util].get]
+                
+            #add any function
+            if hasattr(utils[util], 'any'):
+                handler.pypoly_utils_any += [utils[util].any]
+            
         #add post function
         if hasattr(file_module, 'post'):
-            handler.endpoint_post = file_module.post
+            handler.pypoly_post = file_module.post
             
         #add get function
         if hasattr(file_module, 'get'):
-            handler.endpoint_get = file_module.get
+            handler.pypoly_get = file_module.get
             
         routes += [('/' + file_path['url'], lambda *args, **kwargs: handler._cyclone_init(*args, **kwargs))]
     
