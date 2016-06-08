@@ -15,7 +15,7 @@ def get(req, api):
         string
     """
     
-    return api.example_util.write('sucesso!')
+    return api.example_util.write(req)
 
 def post(req, api):
     """
@@ -34,7 +34,7 @@ def post(req, api):
     
     message = req.params['message']
     
-    return api.example_util.write({
-        'message': message,
-        'status': 'sucessso!'
-    })
+    return {
+        'message': api.example_util.write(req),
+        'request': message
+    }
