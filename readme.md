@@ -29,7 +29,7 @@ Bem vindo ao Pypoly Back! A framework usada no backend do site da Discipuluz!
 ## Utilização
 
 ### Pastas
-    /api - arquivos internos da api
+    /api - arquivos internos da api (Essa pasta só existirá se você não importou a biblioteca `pypoly-back` pelo pip)
     /config - arquivos json de configuração
     /endpoints - endpoints do backend
     /utils - arquivos de scripts para auxílio
@@ -95,6 +95,23 @@ Onde `[method]` é o tipo de requisição, podendo ser:
 ### UTILS
 
 Arquivos de python com código reutilizável, para serem usados em múltiplos endpoints.
+
+Ele será um código comum, mas com alguns métodos especiais, sendo esses:
+
+init(api)
+
+    A função que será executada no início da compilação, ou seja, apena uma vez, que será quando o programa for executado.
+    
+`[method]`(req, api) - Sendo `[method]` o tipo de requisição
+    
+    A função que será executada antes que qualquer requisição ao método escolhido do endpoint.
+    Note que qualquer resultado deve ser retornado ou guardado na variável `req`, por serem as únicas variáveis locais da requisição.
+    
+any(req, api)
+    
+    A função que será executada antes todas as requisições ao endpoint.
+    Observação: esse método será executado antes dos de método específico.
+
 
 ### APP.py
 
