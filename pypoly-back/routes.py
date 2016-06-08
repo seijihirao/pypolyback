@@ -8,7 +8,7 @@ import json
 import cyclone.web
 from twisted.internet.defer import inlineCallbacks as async
 
-from api import apiobject
+from pypolyback import apiobject
 
 global_api =  apiobject.mount()
 

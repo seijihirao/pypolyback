@@ -3,7 +3,7 @@
 
 from twisted.internet import reactor
 
-from api import log, routes, config
+from pypolyback import log, routes, config
 
 def start():
     """

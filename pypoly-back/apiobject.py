@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*- 
 
-from api import config, log
+from pypolyback import config, log
 
 class _ApiObject(object):
     """

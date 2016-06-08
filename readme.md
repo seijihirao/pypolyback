@@ -32,7 +32,7 @@ Bem vindo ao Pypoly Back! A framework usada no backend do site da Discipuluz!
 ## Utilização
 
 ### Pastas
-    /api - arquivos internos da api (Essa pasta só existirá se você não importou a biblioteca `pypoly-back` pelo pip)
+    /pypolyback - arquivos internos da api (Essa pasta só existirá se você não instalou a biblioteca `pypoly-back` pelo pip)
     /config - arquivos json de configuração
     /endpoints - endpoints do backend
     /utils - arquivos de scripts para auxílio
