@@ -1,63 +1,63 @@
 # PYPOLY BACK - v0.6
-Bem vindo ao Pypoly Back! A framework usada no backend do site da Discipuluz!
+Wellcome to Pypoly Back! A simple backend restful framework!
 
-## Linguagem
+## LANGUAGE
 [Python 2.7](https://docs.python.org/2/tutorial/index.html)
 
-## Bibliotecas
-* [twisted](https://twistedmatrix.com/trac/) - Ferramenta de eventos de redes (Low Level)
-* [cyclone](http://cyclone.io/documentation/) - Framework de apps web (High Level)
+## LIBRARIES
+* [twisted](https://twistedmatrix.com/trac/) - Web event-handling Framework (Low Level)
+* [cyclone](http://cyclone.io/documentation/) - Http framework (High Level)
 
 ---
 
-## Instalação
-1. Instale o python 2.7
+## INSTALATION
+1. Install python 2.7
     * Windows - [Link](https://www.python.org/download/releases/2.7/)
     * Ubuntu - `sudo apt-get install python2`
     * Fedora - `sudo yum install python2`
     * Arch - `sudo pacman -S python2`
-2. Instale o PIP - gerenciador de bibliotcas do python
+2. Install PIP - Python libraries manager
     * Windows - [Link](http://www.lfd.uci.edu/~gohlke/pythonlibs/#pip)
     * Ubuntu - `sudo apt-get install pip2`
     * Fedora - `sudo yum install pip2`
     * Arch - `sudo pacman -S pip2`
-3. Instale a framework usando o PIP
+3. Install this framework using PIP
     * `pip2 install pypolyback`
     
 ---
 
-## Utilização
+## USING
 
-### Pastas
-    /pypolyback (*) - arquivos internos da api
-    /config - arquivos json de configuração
-    /endpoints - endpoints do backend
-    /utils - arquivos de scripts para auxílio
+### DIRECTORIES
+    /pypolyback (*) - api internal files
+    /config - json configuration files
+    /endpoints - backend endpoints
+    /utils - helper script files
     
->Obs (*): A pasta pypolyback só existirá se você não instalou a biblioteca `pypolyback` pelo pip  
+>Note (*): The dir pypolyback will only exists if you didn't install `pypolyback`'s library from pip  
 
 ### API
-Aqui estão contidas os arquivos da api, que gerenciam todo o funcionamento por trás dos endpoints
+Here is present all api files that work behind the endpoints
 
 ### CONFIG
-Aqui estão os arquivos com variáveis de configuração usados no aplicativo.
-Eles serão disponibilizados para o endpoint por meio do parâmetro `api.config`
+Here are the configuration files used in the app.
+They will be send to the endpoint via param `api.config`
 
-Estão contidos 2 arquivos:
-* `prod.json` - arquivo de configuração do site oficial
-* `dev.json` - arquivo de configuração usado no desenvolvimento
+There are 3 special filenames:
+* `prod.json` - The oficial configuration file 
+* `dev.json` - The development configuration file
+* `local.json` - The local configuration file (ignore in git)
 
-E é recomendado que seja adicionado um outro:
-* `local.json` - arquivo local de configuração
+>Note: They really work as following: the api tries to load `local.json`, then `dev.json`, then `prod.json`. So in the oficial release you will only have `prod.json`
 
 ### ENDPOINTS
-Esta será a pasta principal de desenvolvimento.
+This will be your mais dev dir
 
-Todo arquivo adicionado aqui já é automaticamente um endpoint
+All files added here will be an endpoint automatically
 
-Por exemplo, o arquivo `endpoints/test/helloworld.py` gerará um endpoint `/test/helloworld`
+i.e.: the file `endpoints/test/helloworld.py` will generate an endpoint `/test/helloworld`
 
-O código do arquivo endpoint será:
+The file's code will be the following:
 ```python
 
 utils = [
@@ -69,75 +69,67 @@ def [method](req, api):
     [process]
 ``` 
 
-Onde `[method]` é o tipo de requisição, podendo ser:
+Where `[method]` is the http request type:
 * post
 * get
 * put
 * patch
 * delete
 
-`[process]` é o que você deseja que o endpoint faça
+`[process]` is what you wan the endpoint to do (your code) 
 
-`[util1]` e `[util2]` são os nomes dos arquivos (sem o `.json`) dos scripts feitos na pasta *utils*
+`[util1]` and `[util2]` are the *utils* scripts (without `.py`)
 
-`req` é o request do cyclone, com as propriedades a mais:
-* params - argumentos recebidos pela requisição, dicionário onde as chaves são os nomes do argumentos
-* respond - função para retornar um dicionário na requisição
+`req` is *cyclone*'s request, with these properties included:
+* params - arguments received from request, an object (primitive, list or dictionary)
+* send - function to respond the request with an object
 
-> A documentação completa do `req` está contida no site http://cyclone.io/documentation/web.html
+> `req`'s complete documentatios in present on cyclone's site http://cyclone.io/documentation/web.html
 
-`api` é o objeto que contém as funciionalidades da api, como:
-* config - dicionário da config usada no escopo atual
-* debug - função para logar uma mensagem
-* error - função para logar um erro
+`api` is the object that contains all api functionalities:
+* config - Configuration dictionary used in the actual scope
+* debug - function to log messages
+* error - function to log errors
 
-> A documentação completa do `api` não existe :D
+`[@async]` is an optional annotation, that makes this method asynchronous.
 
-`[@async]` é uma anotação opcional, que transforma o método em asíncrono.
+Note: if async is used you will need to import  it (`from pypolyback import async`)
 
-Note que deverá ser importado a anotação para ser usada (`from pypolyback import async`)
-
-> A documentação completa do `async` é a mesma do `inlineCallback` contida no site https://twistedmatrix.com/documents/current/api/twisted.internet.defer.html#inlineCallbacks
+> `async` complete doc is the same as twisted's `inlineCallback` https://twistedmatrix.com/documents/current/api/twisted.internet.defer.html#inlineCallbacks
 
 ### UTILS
 
-Arquivos de python com código reutilizável, para serem usados em múltiplos endpoints.
+Python files with reusable code, to be called on endpoints.
 
-Ele será um código comum, mas com alguns métodos especiais, sendo esses:
+It will be a normal cod, but with some special funcions:
 
 init(api)
 
-    A função que será executada no início da compilação.
-    Ou seja, apenas uma vez, que será quando o programa for executado.
+    The function that will be executed on server startup
+    Only one time.
     
-`[method]`(req, api) - Sendo `[method]` o tipo de requisição
+`[method]`(req, api) - `[method]` being the type of http request
     
-    A função que será executada antes que qualquer requisição ao método escolhido do endpoint.
-    Note que qualquer resultado deve ser retornado ou guardado na variável `req`, por serem as únicas variáveis locais da requisição.
+    The function that will be called before every request to the function with the same name on the endpoint.
+    Any result should be stored on the variable `req`, because it is the only local variable on the request.
     
 any(req, api)
     
-    A função que será executada antes todas as requisições ao endpoint.
-    Observação: esse método será executado antes dos de método específico.
+    The function that will be executed before any request.
+    Note: thids function will be executed before the later.
 
 
 ### APP.py
 
-Executável do servidor!
+>This file is not needed if you installed from pip
 
-Abra um terminal e execute `python2 app.py`
+An executable to start your server
 
-Então abra seu navegador ou uma requisição http e entre em `localhost:[porta]/[página]`
+## EXAMPLE
 
-Onde `[porta]` é a porta no seu arquivo de configuração (`8888` se nada foi mudado)
+To have a feeling of how things are working take a look at the file `endpoints/example/ex_endpoint.py`
 
-E `[página]` é a url do seu arquivo, como explicado na sessão #endpoint
-
-## EXEMPLO
-
-Para tentar ter uma pequena sensação de que as coisas estão funcionando dê uma olhada no arquivo `endpoints/example/ex_endpoint.py` 
-
-Ele deve estar assim:
+It should be like this:
 ```python
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
@@ -151,9 +143,9 @@ utils = [
 @async  #método asíncrono
 def get(req, api):
     """
-    Execute `python2 app.py`
-    E entre, pelo seu browser em `localhost:8888/example/ex_endpoint`
-    Deverá abrir uma página escrita `sucesso!`
+    Start the server
+    Then go, from your browser, in `localhost:8888/example/ex_endpoint`
+    There shoud open a page with the content `Success in method get!`
     
     Output:
         string
@@ -165,10 +157,10 @@ def get(req, api):
 
 def post(req, api):
     """
-    Execute `python2 app.py`
-    E faça uma requisição http post em `localhost:8888/example/ex_endpoint`
-    passando o objeto documentado como entrada
-    Deverá ser retornado `{"message": input.message, "status":"sucesso!"}`
+    Start the server
+    Then make a post http request to `localhost:8888/example/ex_endpoint`
+    Sending the documented object as input 
+    It should be returned `{"message": input.message, "status":"Sucess in method post!"}`
     
     Input:
         message: string
@@ -187,22 +179,20 @@ def post(req, api):
     })
 ``` 
 
-Agora siga as instruções para testar e ver como funciona o endpoint.
+Now follow instructions to test it and see how the endpoint works
 
 ---
 
-### Execução
+### STARTING THE SERVER
 
-Execute `pypolyback` pelo terminal na pasta raíz do seu projeto (Recomendado)
+There are 2 ways to start the server
 
-Ou chame o método `start()` do módulo `pypolyback.server`
+1. Execute `pypolyback` from terminal on your root project folder (Recomended)
+
+2. Call the method `start()` from module `pypolyback.server` (Only recomended if you need to do something before starting the server)
 
 ---
 
-## AGRADECIMENTOS
+## OBSERVATION
 
-https://youtu.be/oAhvQoLpvsM
-
-## OBSERVAÇÃO
-
-Tanto a framework quanto essa página estão ainda em fase de desenvolvimento e, por tanto, sujeitos a mudança.
+Both the framework and this page are in development, so, subjected to changes.
