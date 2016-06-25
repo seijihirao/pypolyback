@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*- 
+# -*- coding: utf-8 -*-
 
 import os
 import sys
@@ -8,9 +8,9 @@ import json
 import cyclone.web
 from twisted.internet.defer import inlineCallbacks as async
 
-from pypolyback import apiobject
+from pypolyback import log, apiobject
 
-global_api =  apiobject.mount()
+global_api = apiobject.mount()
 
 class DynamicHandler(cyclone.web.RequestHandler):
     """
@@ -22,26 +22,6 @@ class DynamicHandler(cyclone.web.RequestHandler):
         pypoly_utils_post: list of `post` functions in the called util, they will be called before each endpoint `post` request
         pypoly_utils_any: list of `any` functions in the called util, they will be called before each endpoint request
     """
-    
-    def __init__(self):
-        """
-        Initialize properties.
-        api with the mounted object
-        pypoly_utils with an empty list each
-        """
-        self.pypoly_utils_get = []
-        self.pypoly_utils_post = []
-        self.pypoly_utils_any = []
-        self.api = global_api
-    
-    def _cyclone_init(self, application, request, **kwargs):
-        """
-        __init__ passed to cyclone
-        """
-        super(DynamicHandler, self).__init__(application, request, **kwargs)
-        self._params = None
-        
-        return self
     
     @property
     def params(self):
@@ -107,7 +87,7 @@ class DynamicHandler(cyclone.web.RequestHandler):
         for util_func in self.pypoly_utils_get:
             util_func(self, self.api, *args, **kwargs)
             
-        yield self.pypoly_get(self, self.api, *args, **kwargs)
+        yield self.pypoly_get(self.api, *args, **kwargs)
     
     def pypoly_post(req, api, *args, **kwargs):
         """
@@ -139,7 +119,7 @@ class DynamicHandler(cyclone.web.RequestHandler):
         for util_func in self.pypoly_utils_post:
             util_func(self, self.api, *args, **kwargs)
             
-        yield self.pypoly_post(self, self.api, *args, **kwargs)
+        yield self.pypoly_post(self.api, *args, **kwargs)
 
 def prepare():
     """
@@ -166,17 +146,39 @@ def prepare():
     
     #populate routes
     for file_path in file_paths:
-        file_module = imp.load_source(file_path['url'].replace('/', '-'), file_path['file'])
-        handler = DynamicHandler()
         
-        handler.async = async
+        log.debug('Loading endpoint: [' + log.bcolors.HEADER + file_path['url'] + log.bcolors.ENDC + ']')
+        
+        file_module = imp.load_source(file_path['url'].replace('/', '-'), file_path['file'])
+        
+        handler_props = {}
+        
+        #add post function
+        if hasattr(file_module, 'post'):
+            handler_props['pypoly_post'] = file_module.post
+            
+        #add get function
+        if hasattr(file_module, 'get'):
+            handler_props['pypoly_get'] = file_module.get
+        
+        #async object
+        handler_props['async'] = async
+        
+        #api objects
+        handler_props['api'] = global_api
+        handler_props['pypoly_utils_post'] = []
+        handler_props['pypoly_utils_get'] = []
+        handler_props['pypoly_utils_any'] = []
+        
+        #request objects
+        handler_props['_params'] = None
         
         #add utils to api param
         for util in file_module.utils:
             if not util in utils:
                 utils[util] = imp.load_source(util, os.path.join('utils', util + '.py'))
                 utils[util].async =  async
-            setattr(handler.api, util, utils[util])
+            setattr(handler_props['api'], util, utils[util])
             
             #calls util init function 
             if hasattr(utils[util], 'init'):
@@ -184,24 +186,31 @@ def prepare():
                 
             #add post function
             if hasattr(utils[util], 'post'):
-                handler.pypoly_utils_post += [utils[util].post]
+                handler_props['pypoly_utils_post'] += [utils[util].post]
                 
             #add get function
             if hasattr(utils[util], 'get'):
-                handler.pypoly_utils_get += [utils[util].get]
+                handler_props['pypoly_utils_get'] += [utils[util].get]
                 
             #add any function
             if hasattr(utils[util], 'any'):
-                handler.pypoly_utils_any += [utils[util].any]
-            
-        #add post function
-        if hasattr(file_module, 'post'):
-            handler.pypoly_post = file_module.post
-            
-        #add get function
-        if hasattr(file_module, 'get'):
-            handler.pypoly_get = file_module.get
-            
-        routes += [('/' + file_path['url'], lambda *args, **kwargs: handler._cyclone_init(*args, **kwargs))]
+                handler_props['pypoly_utils_any'] += [utils[util].any]
+        
+        Handler = type(file_path['url'].replace('/', '').replace('.', ''), (DynamicHandler, ), handler_props)
+        
+        routes += [('/' + file_path['url'], Handler)]
+        
+        #Logging loaded endpoints
+        log.debug('Endpoint Loaded: [' + log.bcolors.OKBLUE + file_path['url'] + log.bcolors.ENDC + ']')
+    
+    #Logging loades utils
+    for root, subdirs, files in os.walk('./utils'):
+        for file in files:
+            if os.path.splitext(file)[1] == '.py':
+                util = os.path.splitext(file)[0]
+                if util in utils:
+                    log.debug('Util Loaded: [' + log.bcolors.OKBLUE + util + log.bcolors.ENDC + ']')
+                else:
+                    log.debug('Util not Loaded: [' + log.bcolors.WARNING + util + log.bcolors.ENDC + ']')
     
     return cyclone.web.Application(routes)

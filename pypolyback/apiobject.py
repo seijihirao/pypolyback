@@ -15,8 +15,11 @@ class _ApiObject(object):
     """
     
     config = config.value
-    debug = log.debug
-    error = log.error
+    def debug(self, msg):
+        log.debug(msg)
+        
+    def error(self, msg):
+        log.error(msg)
 
 def mount():
     return _ApiObject()

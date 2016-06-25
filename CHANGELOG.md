@@ -1,3 +1,9 @@
+#v0.7.0
+Added logs for loaded endpoints and utils.
+
+#v0.6.1
+Fixed bug when making multiple requests to same endpoint resulted on param being reseted 
+
 #v0.6.0
 Added async annotation
 
