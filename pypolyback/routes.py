@@ -39,7 +39,6 @@ class DynamicHandler(cyclone.web.RequestHandler):
                 self._params = json.loads(self.request.body)
             except:
                 self._params = {}
-                print self.request.arguments
                 for key in self.request.arguments:
                     if len(self.request.arguments[key]) is 1:
                         self._params[key] = self.request.arguments[key][0]
@@ -81,13 +80,16 @@ class DynamicHandler(cyclone.web.RequestHandler):
             *args: don't really know
             **kwargs: don't really know 
         """
-        for util_func in self.pypoly_utils_any:
-            util_func(self, self.api, *args, **kwargs)
-            
-        for util_func in self.pypoly_utils_get:
-            util_func(self, self.api, *args, **kwargs)
-            
-        yield self.pypoly_get(self.api, *args, **kwargs)
+        if self.pypoly_get_implemented:
+            for util_func in self.pypoly_utils_any:
+                util_func(self, self.api, *args, **kwargs)
+                
+            for util_func in self.pypoly_utils_get:
+                util_func(self, self.api, *args, **kwargs)
+                
+            yield self.pypoly_get(self.api, *args, **kwargs)
+        else:
+            yield self.default(*args, **kwargs)
     
     def pypoly_post(req, api, *args, **kwargs):
         """
@@ -113,13 +115,189 @@ class DynamicHandler(cyclone.web.RequestHandler):
             *args: don't really know
             **kwargs: don't really know
         """
+        if self.pypoly_post_implemented:
+            for util_func in self.pypoly_utils_any:
+                util_func(self, self.api, *args, **kwargs)
+                
+            for util_func in self.pypoly_utils_post:
+                util_func(self, self.api, *args, **kwargs)
+                
+            yield self.pypoly_post(self.api, *args, **kwargs)
+        else:
+            yield self.default(*args, **kwargs)
+    
+    def pypoly_put(req, api, *args, **kwargs):
+        """
+        Function executed on http put that will be overriden by `put` function on your endpoint 
+        
+        Args:
+            req: self, cyclone.web.RequestHandler
+            api: object mounted on `apiobject.py` and incremented with util modules
+            *args: don't really know
+            **kwargs: don't really know
+        
+        Raises:
+            NotImplemented: if endpoint post is called and not implemented
+        """
+        raise NotImplemented
+        
+    @async
+    def put(self, *args, **kwargs):
+        """
+        Function executed on http put
+        
+        Args:
+            *args: don't really know
+            **kwargs: don't really know
+        """
+        if self.pypoly_put_implemented:
+            for util_func in self.pypoly_utils_any:
+                util_func(self, self.api, *args, **kwargs)
+                
+            for util_func in self.pypoly_utils_put:
+                util_func(self, self.api, *args, **kwargs)
+                
+            yield self.pypoly_put(self.api, *args, **kwargs)
+        else:
+            yield self.default(*args, **kwargs)
+    
+    def pypoly_delete(req, api, *args, **kwargs):
+        """
+        Function executed on http delete that will be overriden by `delete` function on your endpoint 
+        
+        Args:
+            req: self, cyclone.web.RequestHandler
+            api: object mounted on `apiobject.py` and incremented with util modules
+            *args: don't really know
+            **kwargs: don't really know
+        
+        Raises:
+            NotImplemented: if endpoint post is called and not implemented
+        """
+        raise NotImplemented
+        
+    @async
+    def delete(self, *args, **kwargs):
+        """
+        Function executed on http delete
+        
+        Args:
+            *args: don't really know
+            **kwargs: don't really know
+        """
+        print self
+        if self.pypoly_delete_implemented:
+            for util_func in self.pypoly_utils_any:
+                util_func(self, self.api, *args, **kwargs)
+                
+            for util_func in self.pypoly_utils_delete:
+                util_func(self, self.api, *args, **kwargs)
+                
+            yield self.pypoly_delete(self.api, *args, **kwargs)
+        else:
+            yield self.default(*args, **kwargs)
+    
+    def pypoly_head(req, api, *args, **kwargs):
+        """
+        Function executed on http head that will be overriden by `head` function on your endpoint 
+        
+        Args:
+            req: self, cyclone.web.RequestHandler
+            api: object mounted on `apiobject.py` and incremented with util modules
+            *args: don't really know
+            **kwargs: don't really know
+        
+        Raises:
+            NotImplemented: if endpoint post is called and not implemented
+        """
+        raise NotImplemented
+        
+    @async
+    def head(self, *args, **kwargs):
+        """
+        Function executed on http head
+        
+        Args:
+            *args: don't really know
+            **kwargs: don't really know
+        """
+        if self.pypoly_head_implemented:
+            for util_func in self.pypoly_utils_any:
+                util_func(self, self.api, *args, **kwargs)
+                
+            for util_func in self.pypoly_utils_head:
+                util_func(self, self.api, *args, **kwargs)
+                
+            yield self.pypoly_head(self.api, *args, **kwargs)
+        else:
+            yield self.default(*args, **kwargs)
+    
+    def pypoly_options(req, api, *args, **kwargs):
+        """
+        Function executed on http options that will be overriden by `options` function on your endpoint 
+        
+        Args:
+            req: self, cyclone.web.RequestHandler
+            api: object mounted on `apiobject.py` and incremented with util modules
+            *args: don't really know
+            **kwargs: don't really know
+        
+        Raises:
+            NotImplemented: if endpoint post is called and not implemented
+        """
+        raise NotImplemented
+        
+    @async
+    def options(self, *args, **kwargs):
+        """
+        Function executed on http options
+        
+        Args:
+            *args: don't really know
+            **kwargs: don't really know
+        """
+        if self.pypoly_options_implemented:
+            for util_func in self.pypoly_utils_any:
+                util_func(self, self.api, *args, **kwargs)
+                
+            for util_func in self.pypoly_utils_options:
+                util_func(self, self.api, *args, **kwargs)
+                
+            yield self.pypoly_options(self.api, *args, **kwargs)
+        else:
+            yield self.default(*args, **kwargs)
+    
+    def pypoly_default(req, api, *args, **kwargs):
+        """
+        Function executed on http default that will be overriden by `default` function on your endpoint 
+        
+        Args:
+            req: self, cyclone.web.RequestHandler
+            api: object mounted on `apiobject.py` and incremented with util modules
+            *args: don't really know
+            **kwargs: don't really know
+        
+        Raises:
+            NotImplemented: if endpoint post is called and not implemented
+        """
+        raise NotImplemented
+        
+    @async
+    def default(self, *args, **kwargs):
+        """
+        Function executed if a request does not match any implemented methods
+        
+        Args:
+            *args: don't really know
+            **kwargs: don't really know
+        """
         for util_func in self.pypoly_utils_any:
             util_func(self, self.api, *args, **kwargs)
             
-        for util_func in self.pypoly_utils_post:
+        for util_func in self.pypoly_utils_default:
             util_func(self, self.api, *args, **kwargs)
             
-        yield self.pypoly_post(self.api, *args, **kwargs)
+        yield self.pypoly_default(self.api, *args, **kwargs)
 
 def prepare():
     """
@@ -151,29 +329,72 @@ def prepare():
         
         file_module = imp.load_source(file_path['url'].replace('/', '-'), file_path['file'])
         
-        handler_props = {}
-        
-        #add post function
-        if hasattr(file_module, 'post'):
-            handler_props['pypoly_post'] = file_module.post
+        handler_props = {
+            'async': async,
             
+            '_params': None,
+            
+            'api': global_api,
+            
+            'pypoly_get_implemented': False,
+            'pypoly_post_implemented': False,
+            'pypoly_put_implemented': False,
+            'pypoly_delete_implemented': False,
+            'pypoly_head_implemented': False,
+            'pypoly_options_implemented': False,
+            
+            'pypoly_utils_any': [],
+            'pypoly_utils_get': [],
+            'pypoly_utils_post': [],
+            'pypoly_utils_put': [],
+            'pypoly_utils_delete': [],
+            'pypoly_utils_head': [],
+            'pypoly_utils_options': [],
+            'pypoly_utils_default': [],
+        }
+        
+        ##
+        # ADDING METHOD FUNCTIONS
+        #
+        
         #add get function
         if hasattr(file_module, 'get'):
             handler_props['pypoly_get'] = file_module.get
+            handler_props['pypoly_get_implemented'] = True
+            
+        #add post function
+        if hasattr(file_module, 'post'):
+            handler_props['pypoly_post'] = file_module.post
+            handler_props['pypoly_post_implemented'] = True
+            
+        #add put function
+        if hasattr(file_module, 'put'):
+            handler_props['pypoly_put'] = file_module.put
+            handler_props['pypoly_put_implemented'] = True
+            
+        #add delete function
+        if hasattr(file_module, 'delete'):
+            handler_props['pypoly_delete'] = file_module.delete
+            handler_props['pypoly_delete_implemented'] = True
+            
+        #add head function
+        if hasattr(file_module, 'head'):
+            handler_props['pypoly_head'] = file_module.head
+            handler_props['pypoly_head_implemented'] = True
+            
+        #add options function
+        if hasattr(file_module, 'options'):
+            handler_props['pypoly_options'] = file_module.options
+            handler_props['pypoly_options_implemented'] = True
+            
+        #add default function
+        if hasattr(file_module, 'default'):
+            handler_props['pypoly_default'] = file_module.default
+            handler_props['pypoly_default_implemented'] = True
         
-        #async object
-        handler_props['async'] = async
-        
-        #api objects
-        handler_props['api'] = global_api
-        handler_props['pypoly_utils_post'] = []
-        handler_props['pypoly_utils_get'] = []
-        handler_props['pypoly_utils_any'] = []
-        
-        #request objects
-        handler_props['_params'] = None
-        
-        #add utils to api param
+        ##
+        # ADDING UTILS TO API PARAM
+        #
         for util in file_module.utils:
             if not util in utils:
                 utils[util] = imp.load_source(util, os.path.join('utils', util + '.py'))
@@ -184,13 +405,33 @@ def prepare():
             if hasattr(utils[util], 'init'):
                 utils[util].init(global_api)
                 
+            #add get function
+            if hasattr(utils[util], 'get'):
+                handler_props['pypoly_utils_get'] += [utils[util].get]
+                
             #add post function
             if hasattr(utils[util], 'post'):
                 handler_props['pypoly_utils_post'] += [utils[util].post]
                 
             #add get function
-            if hasattr(utils[util], 'get'):
-                handler_props['pypoly_utils_get'] += [utils[util].get]
+            if hasattr(utils[util], 'put'):
+                handler_props['pypoly_utils_put'] += [utils[util].put]
+                
+            #add get function
+            if hasattr(utils[util], 'delete'):
+                handler_props['pypoly_utils_delete'] += [utils[util].delete]
+                
+            #add get function
+            if hasattr(utils[util], 'head'):
+                handler_props['pypoly_utils_head'] += [utils[util].head]
+                
+            #add get function
+            if hasattr(utils[util], 'options'):
+                handler_props['pypoly_utils_options'] += [utils[util].options]
+                
+            #add get function
+            if hasattr(utils[util], 'default'):
+                handler_props['pypoly_utils_default'] += [utils[util].default]
                 
             #add any function
             if hasattr(utils[util], 'any'):

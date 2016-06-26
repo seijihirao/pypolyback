@@ -73,8 +73,10 @@ Where `[method]` is the http request type:
 * post
 * get
 * put
-* patch
 * delete
+* head
+* options
+* default - executed when a request is made for any of the above, but it is not implemented 
 
 `[process]` is what you wan the endpoint to do (your code) 
 

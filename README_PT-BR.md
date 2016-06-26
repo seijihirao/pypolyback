@@ -71,8 +71,10 @@ Onde `[method]` é o tipo de requisição, podendo ser:
 * post
 * get
 * put
-* patch
 * delete
+* head
+* options
+* default - Executado quando é feito uma requisição para algum dos métodos acima, mas este não está implementado
 
 `[process]` é o que você deseja que o endpoint faça
 

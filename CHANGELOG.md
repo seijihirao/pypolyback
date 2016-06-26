@@ -1,3 +1,6 @@
+#v0.8.0
+Added support for http methods `put`, `delete`, `head`, `options` and `default`
+
 #v0.7.0
 Added logs for loaded endpoints and utils.
 
