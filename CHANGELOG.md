@@ -1,5 +1,16 @@
+#v0.8.2
+Fixed long description on pip.
+
+#v0.8.1
+Fixed long description on pip. Also added an instruction to upload to pip.
+
 #v0.8.0
-Added support for http methods `put`, `delete`, `head`, `options` and `default`
+Added support for http methods 
+* put
+* delete
+* head
+* options
+* default
 
 #v0.7.0
 Added logs for loaded endpoints and utils.

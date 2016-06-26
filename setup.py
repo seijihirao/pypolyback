@@ -7,16 +7,22 @@ https://github.com/pypa/sampleproject
 # Always prefer setuptools over distutils
 from setuptools import setup, find_packages
 
+try:
+   import pypandoc
+   description = pypandoc.convert('README.md', 'rst')
+except (IOError, ImportError):
+   description = ''
+
 setup(
     name='pypolyback',
 
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='0.8.0',
+    version='0.8.2',
 
     description='A simple back-end rest framework in python using twisted and cyclone',
-    long_description='Github: https://github.com/seijihirao/pypolyback',
+    long_description=description,
 
     # The project's main homepage.
     url='https://github.com/seijihirao/pypolyback',
@@ -65,7 +71,7 @@ setup(
     # your project is installed. For an analysis of "install_requires" vs pip's
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
-    install_requires=['twisted', 'cyclone'],
+    install_requires=['Twisted', 'cyclone'],
 
     # To provide executable scripts, use entry points in preference to the
     # "scripts" keyword. Entry points provide cross-platform support and allow
@@ -76,3 +82,14 @@ setup(
         ],
     },
 )
+
+#
+# Build project
+# # python2 setup.py sdist
+#
+# Create wheel
+# # python2 setup.py bdist_wheel
+#
+# Upload to Pypi
+# # twine upload dist/pypolyback-x.y.z-py2-none-any.whl
+# # # x.y.z - is the actual version 

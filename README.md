@@ -1,4 +1,4 @@
-# PYPOLY BACK - v0.6
+# PYPOLY BACK - v0.8
 Wellcome to Pypoly Back! A simple backend restful framework!
 
 ## LANGUAGE
