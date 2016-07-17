@@ -1,3 +1,6 @@
+# v0.10.0
+Added: mail to congig
+
 # v0.9.1
 Fixed: Access-Control-Allow-Origin for everyone. If not disabled on config.
 

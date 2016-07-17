@@ -1,4 +1,4 @@
-# PYPOLY BACK - v0.9
+# PYPOLY BACK - v0.10
 Bem vindo ao Pypoly Back! A framework usada no backend do site da Discipuluz!
 
 ## Linguagem
