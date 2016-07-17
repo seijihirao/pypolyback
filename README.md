@@ -51,7 +51,7 @@ There are 3 special filenames:
 >Note: They really work as following: the api tries to load `local.json`, then `dev.json`, then `prod.json`. So in the oficial release you will only have `prod.json`
 
 ### ENDPOINTS
-This will be your mais dev dir
+This will be your main dev dir
 
 All files added here will be an endpoint automatically
 
@@ -61,7 +61,7 @@ The file's code will be the following:
 ```python
 
 utils = [
-    '[util1]'
+    '[util1]',
     '[util2]'
 ]
 [@async]
@@ -169,7 +169,7 @@ def post(req, api):
         
     Output:
         message: string
-        status: string
+        request: string
     """
     
     message = req.params['message'] #coletando dados da requisição
