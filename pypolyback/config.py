@@ -25,11 +25,13 @@ def load(scope='default'):
                 obj = json.loads(config.read())
                 obj['scope'] = scope
 
-                if 'server' not in obj:
-                    obj['server'] = {}
-                else:
-                    fill_default_value(obj['server'], 'port', 8888)
-                    fill_default_value(obj['server'], 'disable_cors', False)
+                #Default Values
+
+                fill_default_value(obj, 'log', False)
+
+                fill_default_value(obj, 'server', {})    
+                fill_default_value(obj['server'], 'port', 8888)
+                fill_default_value(obj['server'], 'disable_cors', False)
 
                 return obj
     raise EnvironmentError('No config file found')

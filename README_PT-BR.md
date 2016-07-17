@@ -51,10 +51,17 @@ Aqui podem ser criados 3 tipos especiais arquivos:
 As propriedades especiais de configurações são as seguintes:
 ```json
 {
-    "log": bool,
+    "log": bool, //opcional. default=False
     "server": {
-        "port": int,
-        "disable_cors": bool
+        "port": int, //opcional. default=8888
+        "disable_cors": bool //opcional. default=False
+    },
+    "mail": {
+        "host": string,
+        "port": int, //opcional. default=25 ou 587 para TLS 
+        "tls": bool, //opcional. default=False
+        "username?": string, //opcional. no default
+        "password?": string //opcional. no default
     }
 }
 ```

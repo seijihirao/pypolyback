@@ -53,10 +53,17 @@ There are 3 special filenames:
 The current config special properties are the following:
 ```json
 {
-    "log": bool,
+    "log": bool, //optional. default=False
     "server": {
-        "port": int,
-        "disable_cors": bool
+        "port": int, //optional. default=8888
+        "disable_cors": bool //optional. default=False
+    },
+    "mail": {
+        "host": string,
+        "port": int, //optional. default=25 or 587 for TLS 
+        "tls": bool, //optional. default=False
+        "username?": string, //optional. no default
+        "password?": string //optional. no default
     }
 }
 ```
