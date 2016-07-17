@@ -299,6 +299,8 @@ class DynamicHandler(cyclone.web.RequestHandler):
             
         yield self.pypoly_default(self.api, *args, **kwargs)
 
+
+
 def prepare():
     """
     Mount routers and add them to cyclone application 
@@ -328,7 +330,7 @@ def prepare():
         log.debug('Loading endpoint: [' + log.bcolors.HEADER + file_path['url'] + log.bcolors.ENDC + ']')
         
         file_module = imp.load_source(file_path['url'].replace('/', '-'), file_path['file'])
-        
+
         supported_methods = global_api.supported_methods
 
         handler_props = {
@@ -360,24 +362,25 @@ def prepare():
         ##
         # ADDING UTILS TO API PARAM
         #
-        for util in file_module.utils:
-            if not util in utils:
-                utils[util] = imp.load_source(util, os.path.join('utils', util + '.py'))
-                utils[util].async =  async
-            setattr(handler_props['api'], util, utils[util])
-            
-            #calls util init function 
-            if hasattr(utils[util], 'init'):
-                utils[util].init(global_api)
-            
-            #adds rest functionst
-            for method in supported_methods:
-                if hasattr(utils[util], method):
-                    handler_props['pypoly_utils_' + method] += [getattr(utils[util], method)]
+        if hasattr(file_module, 'utils'):
+            for util in file_module.utils:
+                if not util in utils:
+                    utils[util] = imp.load_source(util, os.path.join('utils', util + '.py'))
+                    utils[util].async =  async
+                setattr(handler_props['api'], util, utils[util])
+                
+                #calls util init function 
+                if hasattr(utils[util], 'init'):
+                    utils[util].init(global_api)
+                
+                #adds rest functionst
+                for method in supported_methods:
+                    if hasattr(utils[util], method):
+                        handler_props['pypoly_utils_' + method] += [getattr(utils[util], method)]
 
-            #adds 'any' function
-            if hasattr(utils[util], 'any'):
-                handler_props['pypoly_utils_any'] += [utils[util].any]
+                #adds 'any' function
+                if hasattr(utils[util], 'any'):
+                    handler_props['pypoly_utils_any'] += [utils[util].any]
         
         Handler = type(file_path['url'].replace('/', '').replace('.', ''), (DynamicHandler, ), handler_props)
         
