@@ -329,68 +329,33 @@ def prepare():
         
         file_module = imp.load_source(file_path['url'].replace('/', '-'), file_path['file'])
         
+        supported_methods = global_api.supported_methods
+
         handler_props = {
             'async': async,
             
             '_params': None,
             
-            'api': global_api,
-            
-            'pypoly_get_implemented': False,
-            'pypoly_post_implemented': False,
-            'pypoly_put_implemented': False,
-            'pypoly_delete_implemented': False,
-            'pypoly_head_implemented': False,
-            'pypoly_options_implemented': False,
-            
-            'pypoly_utils_any': [],
-            'pypoly_utils_get': [],
-            'pypoly_utils_post': [],
-            'pypoly_utils_put': [],
-            'pypoly_utils_delete': [],
-            'pypoly_utils_head': [],
-            'pypoly_utils_options': [],
-            'pypoly_utils_default': [],
+            'api': global_api
         }
+
+        ##
+        # INITIALIZING METHOD PROPERTIES
+        #
+        for method in supported_methods:
+            handler_props['pypoly_' + method + '_implemented'] = False
+            handler_props['pypoly_utils_' + method] = []
+
+        handler_props['pypoly_utils_any'] = []
         
+
         ##
         # ADDING METHOD FUNCTIONS
         #
-        
-        #add get function
-        if hasattr(file_module, 'get'):
-            handler_props['pypoly_get'] = file_module.get
-            handler_props['pypoly_get_implemented'] = True
-            
-        #add post function
-        if hasattr(file_module, 'post'):
-            handler_props['pypoly_post'] = file_module.post
-            handler_props['pypoly_post_implemented'] = True
-            
-        #add put function
-        if hasattr(file_module, 'put'):
-            handler_props['pypoly_put'] = file_module.put
-            handler_props['pypoly_put_implemented'] = True
-            
-        #add delete function
-        if hasattr(file_module, 'delete'):
-            handler_props['pypoly_delete'] = file_module.delete
-            handler_props['pypoly_delete_implemented'] = True
-            
-        #add head function
-        if hasattr(file_module, 'head'):
-            handler_props['pypoly_head'] = file_module.head
-            handler_props['pypoly_head_implemented'] = True
-            
-        #add options function
-        if hasattr(file_module, 'options'):
-            handler_props['pypoly_options'] = file_module.options
-            handler_props['pypoly_options_implemented'] = True
-            
-        #add default function
-        if hasattr(file_module, 'default'):
-            handler_props['pypoly_default'] = file_module.default
-            handler_props['pypoly_default_implemented'] = True
+        for method in supported_methods:
+            if hasattr(file_module, method):
+                handler_props['pypoly_' + method] = getattr(file_module, method)
+                handler_props['pypoly_' + method + '_implemented'] = True
         
         ##
         # ADDING UTILS TO API PARAM
@@ -404,36 +369,13 @@ def prepare():
             #calls util init function 
             if hasattr(utils[util], 'init'):
                 utils[util].init(global_api)
-                
-            #add get function
-            if hasattr(utils[util], 'get'):
-                handler_props['pypoly_utils_get'] += [utils[util].get]
-                
-            #add post function
-            if hasattr(utils[util], 'post'):
-                handler_props['pypoly_utils_post'] += [utils[util].post]
-                
-            #add get function
-            if hasattr(utils[util], 'put'):
-                handler_props['pypoly_utils_put'] += [utils[util].put]
-                
-            #add get function
-            if hasattr(utils[util], 'delete'):
-                handler_props['pypoly_utils_delete'] += [utils[util].delete]
-                
-            #add get function
-            if hasattr(utils[util], 'head'):
-                handler_props['pypoly_utils_head'] += [utils[util].head]
-                
-            #add get function
-            if hasattr(utils[util], 'options'):
-                handler_props['pypoly_utils_options'] += [utils[util].options]
-                
-            #add get function
-            if hasattr(utils[util], 'default'):
-                handler_props['pypoly_utils_default'] += [utils[util].default]
-                
-            #add any function
+            
+            #adds rest functionst
+            for method in supported_methods:
+                if hasattr(utils[util], method):
+                    handler_props['pypoly_utils_' + method] += [getattr(utils[util], method)]
+
+            #adds 'any' function
             if hasattr(utils[util], 'any'):
                 handler_props['pypoly_utils_any'] += [utils[util].any]
         

@@ -9,12 +9,24 @@ class _ApiObject(object):
     
     Properties:
         config: current config object
+        supported_methods: supported http rest methods
         debug: function to log message
         error: function to log error
         (will be added endpoint required util modules)
     """
     
     config = config.value
+   
+    supported_methods = [
+        'get', 
+        'post',
+        'put',
+        'delete',
+        'head',
+        'options',
+        'default'
+    ]
+
     def debug(self, msg):
         log.debug(msg)
         
