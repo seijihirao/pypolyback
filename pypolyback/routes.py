@@ -23,6 +23,15 @@ class DynamicHandler(cyclone.web.RequestHandler):
         pypoly_utils_any: list of `any` functions in the called util, they will be called before each endpoint request
     """
     
+    def set_default_headers(self):
+        """
+        Set http header behaviour
+
+        Access-Control-Allow-Origin: everyone
+        """
+        if not self.api.config['server']['disable_cors']:
+            self.set_header('Access-Control-Allow-Origin', '*')
+
     @property
     def params(self):
         """

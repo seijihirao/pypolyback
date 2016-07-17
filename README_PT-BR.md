@@ -1,4 +1,4 @@
-# PYPOLY BACK - v0.8
+# PYPOLY BACK - v0.9
 Bem vindo ao Pypoly Back! A framework usada no backend do site da Discipuluz!
 
 ## Linguagem
@@ -53,7 +53,8 @@ As propriedades especiais de configurações são as seguintes:
 {
     "log": bool,
     "server": {
-        "port": int
+        "port": int,
+        "disable_cors": bool
     }
 }
 ```

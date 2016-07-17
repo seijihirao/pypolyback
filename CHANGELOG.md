@@ -1,3 +1,6 @@
+# v0.9.1
+Fixed: Access-Control-Allow-Origin for everyone. If not disabled on config.
+
 # v0.9.0
 Added log property to config file
 
