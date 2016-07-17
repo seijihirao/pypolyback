@@ -12,5 +12,5 @@ def post(req, api):
 def any(req, api):
     req.message = api.message + ' in method '
 
-def write(api):
-     return api.message
+def write(req):
+     return req.message
