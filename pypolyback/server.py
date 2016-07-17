@@ -11,7 +11,7 @@ def start():
     """
     
     #log
-    if config.value['scope'] is not 'prod':
+    if config.value['log']:
         log.start()
     else:
         #TODO: log.start() on sql

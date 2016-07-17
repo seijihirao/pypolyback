@@ -48,6 +48,16 @@ Aqui podem ser criados 3 tipos especiais arquivos:
 * `dev.json` - arquivo de configuração usado no desenvolvimento
 * `local.json` - arquivo local de configuração
 
+As propriedades especiais de configurações são as seguintes:
+```json
+{
+    "log": bool,
+    "server": {
+        "port": int
+    }
+}
+```
+
 ### ENDPOINTS
 Esta será a pasta principal de desenvolvimento.
 

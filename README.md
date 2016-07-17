@@ -50,6 +50,16 @@ There are 3 special filenames:
 
 >Note: They really work as following: the api tries to load `local.json`, then `dev.json`, then `prod.json`. So in the oficial release you will only have `prod.json`
 
+The current config special properties are the following:
+```json
+{
+    "log": bool,
+    "server": {
+        "port": int
+    }
+}
+```
+
 ### ENDPOINTS
 This will be your main dev dir
 
