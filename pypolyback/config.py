@@ -27,16 +27,16 @@ def load(scope='default'):
 
                 #Default Values
 
-                fill_default_value(obj, 'log', False)
+                _fillDefaultValue(obj, 'log', False)
 
-                fill_default_value(obj, 'server', {})    
-                fill_default_value(obj['server'], 'port', 8888)
-                fill_default_value(obj['server'], 'disable_cors', False)
+                _fillDefaultValue(obj, 'server', {})
+                _fillDefaultValue(obj['server'], 'port', 8888)
+                _fillDefaultValue(obj['server'], 'cors', False)
 
                 return obj
     raise EnvironmentError('No config file found')
 
-def fill_default_value(obj, key, default):
+def _fillDefaultValue(obj, key, default):
     if key not in obj:
         obj[key] = default
 

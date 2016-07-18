@@ -1,4 +1,4 @@
-# PYPOLY BACK - v0.10
+# PYPOLY BACK - v0.11
 Wellcome to Pypoly Back! A simple backend restful framework!
 
 ## LANGUAGE
@@ -56,7 +56,7 @@ The current config special properties are the following:
     "log": bool, //optional. default=False
     "server": {
         "port": int, //optional. default=8888
-        "disable_cors": bool //optional. default=False
+        "cors": string or False //optional. default=False
     },
     "mail": {
         "host": string,
