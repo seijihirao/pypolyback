@@ -22,7 +22,7 @@ def start():
         "debug": config.value['scope'] is not 'prod'
     }
     
-    if config.value['mail']:
+    if 'mail' in config.value:
         settings['email_settings'] = config.value['mail']
 
     application = routes.prepare()
