@@ -1,3 +1,6 @@
+# v0.10.2
+Added: vars dictionary to api object 
+
 # v0.10.0
 Added: mail to congig
 

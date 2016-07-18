@@ -8,15 +8,18 @@ class _ApiObject(object):
     Api properties that will be avaliable on endpoints
     
     Properties:
+        vars: dictionary api custom variables
         config: current config object
         supported_methods: supported http rest methods
         debug: function to log message
         error: function to log error
         (will be added endpoint required util modules)
     """
+
+    vars = {}
     
     config = config.value
-   
+
     supported_methods = [
         'get', 
         'post',
