@@ -29,7 +29,7 @@ Bem vindo ao Pypoly Back! A framework usada no backend do site da Discipuluz!
 ## INICIALIZANDO PROJETO
 
 ```
-$ pypolyback init
+$ pypolyback --init
 ```
 
 ---
@@ -219,7 +219,7 @@ Agora siga as instruções para testar e ver como funciona o endpoint.
 
 ### Execução
 
-Execute `pypolyback start` pelo terminal na pasta raíz do seu projeto (Recomendado)
+Execute `pypolyback --start` pelo terminal na pasta raíz do seu projeto (Recomendado)
 
 Ou chame o método `start()` do módulo `pypolyback.server`
 

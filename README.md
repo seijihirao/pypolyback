@@ -30,7 +30,7 @@ Wellcome to Pypoly Back! A simple backend restful framework!
 ## INITIALIZATING PROJECT
 
 ```
-$ pypolyback init
+$ pypolyback --init
 ```
 
 ---
@@ -216,7 +216,7 @@ Now follow instructions to test it and see how the endpoint works
 
 There are 2 ways to start the server
 
-1. Execute `pypolyback start` from terminal on your root project folder (Recomended)
+1. Execute `pypolyback --start` from terminal on your root project folder (Recomended)
 
 2. Call the method `start()` from module `pypolyback.server` (Only recomended if you need to do something before starting the server)
 

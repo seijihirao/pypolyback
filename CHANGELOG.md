@@ -1,3 +1,12 @@
+# v0.12.3
+Using argparse lib on commandline
+
+# v0.12.2
+Fixed pypolyback commandline...again
+
+# v0.12.1
+Fixed pypolyback commandline
+
 # v0.12.0
 Added `pypolyback init` command line to init project folders and files
 

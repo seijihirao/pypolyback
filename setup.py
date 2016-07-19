@@ -19,7 +19,7 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='0.12.0',
+    version='0.12.3',
 
     description='A simple back-end rest framework in python using twisted and cyclone',
     long_description=description,
@@ -78,9 +78,7 @@ setup(
     # pip to create the appropriate form of executable for the target platform.
     entry_points={
         'console_scripts': [
-            'pypolyback start=pypolyback.server:start',
-            'pypolyback serve=pypolyback.server:start',
-            'pypolyback init=pypolyback.project:init',
+            'pypolyback=pypolyback.commandline:main'
         ],
     },
 )
@@ -94,4 +92,4 @@ setup(
 #
 # Upload to Pypi
 # # twine upload dist/pypolyback-x.y.z-py2-none-any.whl
-# # # x.y.z - is the actual version 
+# # # x.y.z - is the actual version
