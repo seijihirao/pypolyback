@@ -1,4 +1,4 @@
-# PYPOLY BACK - v0.11
+# PYPOLY BACK - v0.12
 Wellcome to Pypoly Back! A simple backend restful framework!
 
 ## LANGUAGE
@@ -24,6 +24,15 @@ Wellcome to Pypoly Back! A simple backend restful framework!
 3. Install this framework using PIP
     * `pip2 install pypolyback`
     
+---
+
+
+## INITIALIZATING PROJECT
+
+```
+$ pypolyback init
+```
+
 ---
 
 ## USING
@@ -207,7 +216,7 @@ Now follow instructions to test it and see how the endpoint works
 
 There are 2 ways to start the server
 
-1. Execute `pypolyback` from terminal on your root project folder (Recomended)
+1. Execute `pypolyback start` from terminal on your root project folder (Recomended)
 
 2. Call the method `start()` from module `pypolyback.server` (Only recomended if you need to do something before starting the server)
 

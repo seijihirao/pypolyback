@@ -37,6 +37,14 @@ def load(scope='default'):
     raise EnvironmentError('No config file found')
 
 def _fillDefaultValue(obj, key, default):
+    """
+    Fill Default value if key does not exists on object
+
+    Args:
+        obj: object to fill with default value
+        key: key that will be filled if inexistent
+        default: default value to be filled
+    """
     if key not in obj:
         obj[key] = default
 

@@ -1,5 +1,11 @@
+# v0.12.0
+Added `pypolyback init` command line to init project folders and files
+
+Updated old `pypolyback` command line to `pypolyback start` or `pypolyback serve`  
+
 # v0.11.0
 Removed `server/disable_cors` from config
+
 Added `server/cors` instead 
 
 # v0.10.2

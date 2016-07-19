@@ -1,4 +1,4 @@
-# PYPOLY BACK - v0.11
+# PYPOLY BACK - v0.12
 Bem vindo ao Pypoly Back! A framework usada no backend do site da Discipuluz!
 
 ## Linguagem
@@ -24,6 +24,14 @@ Bem vindo ao Pypoly Back! A framework usada no backend do site da Discipuluz!
 3. Instale a framework usando o PIP
     * `pip2 install pypolyback`
     
+---
+
+## INICIALIZANDO PROJETO
+
+```
+$ pypolyback init
+```
+
 ---
 
 ## Utilização
@@ -211,7 +219,7 @@ Agora siga as instruções para testar e ver como funciona o endpoint.
 
 ### Execução
 
-Execute `pypolyback` pelo terminal na pasta raíz do seu projeto (Recomendado)
+Execute `pypolyback start` pelo terminal na pasta raíz do seu projeto (Recomendado)
 
 Ou chame o método `start()` do módulo `pypolyback.server`
 
