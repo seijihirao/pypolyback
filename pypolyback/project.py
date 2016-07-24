@@ -29,7 +29,7 @@ def init():
         'log': True,
         'server': {
             'port': 8888,
-            'cors': True
+            'cors': "*"
         }
     })
 

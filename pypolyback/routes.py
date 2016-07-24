@@ -29,8 +29,7 @@ class DynamicHandler(cyclone.web.RequestHandler):
 
         Access-Control-Allow-Origin: everyone
         """
-        if self.api.config['server']['cors']:
-            self.set_header('Access-Control-Allow-Origin', self.api.config['server']['cors'])
+        self.set_header('Access-Control-Allow-Origin', self.api.config['server']['cors'])
 
     @property
     def params(self):
@@ -254,7 +253,7 @@ class DynamicHandler(cyclone.web.RequestHandler):
         Raises:
             NotImplemented: if endpoint post is called and not implemented
         """
-        raise NotImplemented
+        pass
         
     @async
     def options(self, *args, **kwargs):
