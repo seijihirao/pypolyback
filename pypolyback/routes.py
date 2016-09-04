@@ -30,6 +30,8 @@ class DynamicHandler(cyclone.web.RequestHandler):
         Access-Control-Allow-Origin: everyone
         """
         self.set_header('Access-Control-Allow-Origin', self.api.config['server']['cors'])
+        self.set_header('Access-Control-Allow-Headers', 'Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With')
+        self.set_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
 
     @property
     def params(self):
