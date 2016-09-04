@@ -1,3 +1,9 @@
+## v0.12.6
+Minor fixes
+
+## v0.12.5
+Added static path, making it possible to read static files
+
 ## v0.12.4
 Fixed default cors value on dev config when initializating project
 
