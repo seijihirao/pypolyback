@@ -1,3 +1,6 @@
+## v0.12.7
+Added `service_identity` to requires
+
 ## v0.12.6
 Minor fixes
 

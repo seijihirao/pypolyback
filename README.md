@@ -1,6 +1,9 @@
 # PYPOLY BACK - v0.12
 Wellcome to Pypoly Back! A simple backend restful framework!
 
+## [DROPPED]
+This project is now continuing as [apy](https://github.com/seijihirao/apy) as a python 3 framework.
+
 ## LANGUAGE
 [Python 2.7](https://docs.python.org/2/tutorial/index.html)
 
